@@ -18,29 +18,41 @@ function get_db_connect(){
 
 function fetch_query($db, $sql, $params = array()){
   try{
+    // sql文を実行する準備
     $statement = $db->prepare($sql);
+    // sql文を実行
     $statement->execute($params);
+    // $statement->fetchAll()に返す(レコード取得)
     return $statement->fetch();
   }catch(PDOException $e){
+    // エラーメッセージ表示
     set_error('データ取得に失敗しました。');
   }
   return false;
 }
 
+// queryを読み込む
 function fetch_all_query($db, $sql, $params = array()){
   try{
+    // sql文を実行する準備
     $statement = $db->prepare($sql);
+    // sql文を実行
     $statement->execute($params);
+    // $statement->fetchAll()に返す(レコード取得)
     return $statement->fetchAll();
   }catch(PDOException $e){
+    // エラーメッセージ表示
     set_error('データ取得に失敗しました。');
   }
+  // falseを返す
   return false;
 }
 
 function execute_query($db, $sql, $params = array()){
   try{
+    // sql文を実行する準備
     $statement = $db->prepare($sql);
+     // sql文を実行
     return $statement->execute($params);
   }catch(PDOException $e){
     set_error('更新に失敗しました。');

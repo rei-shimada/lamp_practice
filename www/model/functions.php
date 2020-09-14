@@ -1,29 +1,39 @@
 <?php
-
+// コメントアウト　command+/
+// デバッグ処理
 function dd($var){
   var_dump($var);
   exit();
 }
 
+// urlにとばす
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
 
+// 名前取得
 function get_get($name){
+  // 変数がセットされているか確認
   if(isset($_GET[$name]) === true){
+    // 名前を返す
     return $_GET[$name];
   };
+  // 空の文字列を返す
   return '';
 }
 
+// 名前取得
 function get_post($name){
+  // 変数がセットされているか確認
   if(isset($_POST[$name]) === true){
+    // 名前を返す
     return $_POST[$name];
   };
   return '';
 }
 
+// ファイル名取得
 function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
@@ -31,55 +41,72 @@ function get_file($name){
   return array();
 }
 
+// セッション変数取得
 function get_session($name){
+  // セッション変数が取得された場合
   if(isset($_SESSION[$name]) === true){
+
     return $_SESSION[$name];
   };
   return '';
 }
 
+// セッション変数を$valueに代入する
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
-
+// セッション変数を$errorに代入する
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
 
+// エラー取得
 function get_errors(){
+  // セッションを取得
   $errors = get_session('__errors');
+  // エラーがない場合
   if($errors === ''){
+    // 空の配列を返す
     return array();
   }
   set_session('__errors',  array());
   return $errors;
 }
 
+// エラーがあるかチェック
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
 
+// セッション変数に$messageを代入
 function set_message($message){
   $_SESSION['__messages'][] = $message;
 }
 
+// メッセージ取得
 function get_messages(){
   $messages = get_session('__messages');
+  // メッセージがからの場合
   if($messages === ''){
     return array();
   }
   set_session('__messages',  array());
+  // $messagesに返す
   return $messages;
 }
 
+// ログインチェック
 function is_logined(){
   return get_session('user_id') !== '';
 }
 
+// ファイルネーム取得
 function get_upload_filename($file){
+  // 画像が無効の場合
   if(is_valid_upload_image($file) === false){
     return '';
   }
+  // 画像形式ファイル
   $mimetype = exif_imagetype($file['tmp_name']);
   $ext = PERMITTED_IMAGE_TYPES[$mimetype];
   return get_random_string() . '.' . $ext;

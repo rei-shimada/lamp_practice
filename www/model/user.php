@@ -52,6 +52,7 @@ function get_login_user($db){
 }
 
 function regist_user($db, $name, $password, $password_confirmation) {
+  // 有効
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
@@ -101,6 +102,8 @@ function is_valid_password($password, $password_confirmation){
 }
 
 function insert_user($db, $name, $password){
+  // ユーザーズテーブルに新しいユーザーの
+  // 名前とパスワードを挿入する
   $sql = "
     INSERT INTO
       users(name, password)

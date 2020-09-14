@@ -1,5 +1,7 @@
 <?php
+// 汎用関数ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
+// データーベースに関する関数ファイル読み込み
 require_once MODEL_PATH . 'db.php';
 
 // DB利用
