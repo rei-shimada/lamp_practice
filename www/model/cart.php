@@ -27,10 +27,10 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
   // fetch_all_queryに返す
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, array($user_id));
 }
 
 // ログインユーザーが選んだ商品の取得
@@ -54,12 +54,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 // fetch_queryに返す
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($user_id, $item_id));
 
 }
 
@@ -86,27 +86,11 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?, ?, ?)
   ";
 // execute_queryに返す
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($item_id, $user_id, $amount));
 }
-
-// // カートの数量を更新する
-// function update_cart_amount($db, $cart_id, $amount){
-//   // cartsテーブルのamountを更新する
-//   $sql = "
-//     UPDATE
-//       carts
-//     SET
-//       amount = {$amount}
-//     WHERE
-//       cart_id = {$cart_id}
-//     LIMIT 1      //レコードの選択
-//   ";
-//   // execute_queryに返す
-//   return execute_query($db, $sql);
-// }
 
 // カートの数量を更新する(修正版)
 function update_cart_amount($db, $cart_id, $amount){
@@ -118,17 +102,10 @@ function update_cart_amount($db, $cart_id, $amount){
       amount = ?
     WHERE
       cart_id = ?
+    LIMIT 1
   ";
-  // SQL文を実行する準備
-  $stmt = $db->prepare($sql);
-  // SQL文のプレースホルダに値をバインド
-  $stmt->bindValue(1, $amount,   PDO::PARAM_INT);
-  $stmt->bindValue(2, $cart_id,  PDO::PARAM_STR);
-  
-  // SQLを実行
-  $stmt->execute();
   // execute_queryに返す
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($amount, $cart_id));
 }
 
 
@@ -139,12 +116,12 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
 
    // execute_queryに返す
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($cart_id));
 }
 
 // カート一覧から商品を購入する
@@ -178,10 +155,10 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
   // クエリ実行
-  execute_query($db, $sql);
+  execute_query($db, $sql,array($user_id));
 }
 
 // カートの合計
