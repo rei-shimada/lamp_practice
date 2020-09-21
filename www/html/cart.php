@@ -1,13 +1,13 @@
 <?php
 // 設定ファイル読み込み
 require_once '../conf/const.php';
-// 関数ファイル読み込み
+// 汎用関数ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
-// ユーザーファイル読み込み
+// ユーザーに関するファイル読み込み
 require_once MODEL_PATH . 'user.php';
-// 商品ファイル読み込み
+// 商品に関するファイル読み込み
 require_once MODEL_PATH . 'item.php';
-// カートファイル読み込み
+// カートに関するファイル読み込み
 require_once MODEL_PATH . 'cart.php';
 
 // ログインチェックを行うため、セッションを開始する

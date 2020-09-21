@@ -6,6 +6,7 @@ require_once MODEL_PATH . 'db.php';
 
 // DB利用
 
+// 商品の取得
 function get_item($db, $item_id){
   $sql = "
     SELECT
@@ -23,6 +24,7 @@ function get_item($db, $item_id){
 
   return fetch_query($db, $sql, array($item_id));
 }
+
 
 function get_items($db, $is_open = false){
   $sql = '
@@ -45,14 +47,17 @@ function get_items($db, $is_open = false){
   return fetch_all_query($db, $sql);
 }
 
+// 全ての商品取得
 function get_all_items($db){
   return get_items($db);
 }
 
+// 公開商品取得
 function get_open_items($db){
   return get_items($db, true);
 }
 
+// 商品登録
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
   if(validate_item($name, $price, $stock, $filename, $status) === false){
@@ -61,6 +66,7 @@ function regist_item($db, $name, $price, $stock, $status, $image){
   return regist_item_transaction($db, $name, $price, $stock, $status, $image, $filename);
 }
 
+// 商品登録処理
 function regist_item_transaction($db, $name, $price, $stock, $status, $image, $filename){
   $db->beginTransaction();
   if(insert_item($db, $name, $price, $stock, $filename, $status) 
@@ -73,6 +79,7 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   
 }
 
+// 商品追加
 function insert_item($db, $name, $price, $stock, $filename, $status){
   $status_value = PERMITTED_ITEM_STATUSES[$status];
   $sql = "
@@ -90,6 +97,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
   return execute_query($db, $sql, array($name, $price, $stock, $filename, $status_value));
 }
 
+// ステータス更新
 function update_item_status($db, $item_id, $status){
   $sql = "
     UPDATE
@@ -104,6 +112,7 @@ function update_item_status($db, $item_id, $status){
   return execute_query($db, $sql, array($status, $item_id));
 }
 
+// 在庫数更新
 function update_item_stock($db, $item_id, $stock){
   $sql = "
     UPDATE
@@ -117,6 +126,7 @@ function update_item_stock($db, $item_id, $stock){
   
   return execute_query($db, $sql, array($stock, $item_id));
 }
+
 
 function destroy_item($db, $item_id){
   $item = get_item($db, $item_id);
@@ -133,6 +143,7 @@ function destroy_item($db, $item_id){
   return false;
 }
 
+// 商品削除
 function delete_item($db, $item_id){
   $sql = "
     DELETE FROM

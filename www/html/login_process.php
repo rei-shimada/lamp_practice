@@ -1,15 +1,15 @@
 <?php
-// 定数ファイル読み込み
+// 設定ファイル読み込み
 require_once '../conf/const.php';
 // 汎用関数ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
-// ユーザーデータに関する関数ファイル読み込み
+// ユーザーに関する関数ファイル読み込み
 require_once MODEL_PATH . 'user.php';
 
 // ログインチェックを行うため、セッションを開始する
 session_start();
 
-// ログインしている場合は、index.phpにとばす
+// ログインしている場合は、index.php(商品一覧)にとばす
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }
@@ -22,7 +22,7 @@ $password = get_post('password');
 // データベースに接続
 $db = get_db_connect();
 
-// ログインユーザーの名前とパスワードを取得
+// データーベースからログインユーザーの名前とパスワードを取得
 $user = login_as($db, $name, $password);
 // データが存在していない場合、エラーメッセージ表示
 if( $user === false){

@@ -1,9 +1,14 @@
 <?php
+// 設定ファイル読み込み
 require_once '../conf/const.php';
+// 汎用関数ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
+// ユーザーに関する関数ファイル読み込み
 require_once MODEL_PATH . 'user.php';
+// 商品に関する関数ファイル読み込み
 require_once MODEL_PATH . 'item.php';
 
+// ログインチェックを行うためセッション開始
 session_start();
 
 // ログインしていないユーザーがindex.phpを直接開こうとした場合、ログインページにとばす。

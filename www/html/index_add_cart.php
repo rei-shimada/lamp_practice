@@ -1,10 +1,16 @@
 <?php
+// 設定ファイル読み込み
 require_once '../conf/const.php';
+// 汎用関数ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
+// ユーザーに関する関数ファイル読み込み
 require_once MODEL_PATH . 'user.php';
+// 商品に関する関数ファイル読み込み
 require_once MODEL_PATH . 'item.php';
+// カートに関する関数ファイル読み込み
 require_once MODEL_PATH . 'cart.php';
 
+// ログインチェックを行うためセッション開始
 session_start();
 
 // ログインしていないユーザーがindex_add_cart.phpを直接開こうとした場合、ログインページにとばす。
@@ -12,6 +18,7 @@ if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
+// データベースに接続
 $db = get_db_connect();
 // データベースからログインユーザーを取得
 $user = get_login_user($db);

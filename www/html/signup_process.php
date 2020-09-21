@@ -9,7 +9,7 @@ require_once MODEL_PATH . 'user.php';
 // ログインチェックを行うため、セッションを開始する
 session_start();
 
-// ログインしている場合は、index.phpにとばす
+// ログインしている場合は、index.php(商品一覧)にとばす
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }

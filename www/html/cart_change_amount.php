@@ -1,13 +1,13 @@
 <?php
 // 設定ファイル読み込み
 require_once '../conf/const.php';
-// 関数ファイル読み込み
+// 汎用関数ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
-// ユーザーファイル読み込み
+// ユーザーに関する関数ファイル読み込み
 require_once MODEL_PATH . 'user.php';
-// 商品ファイル読み込み
+// 商品に関する関数ファイル読み込み
 require_once MODEL_PATH . 'item.php';
-// カートファイル読み込み
+// カートに関する関数ファイル読み込み
 require_once MODEL_PATH . 'cart.php';
 
 // ログインチェックを行うため、セッションを開始する
@@ -25,10 +25,10 @@ $user = get_login_user($db);
 
 // カートid取得
 $cart_id = get_post('cart_id');
-// 数量取得
+// 購入数取得
 $amount = get_post('amount');
 
-// カート数量を更新したら、メッセージを表示する
+// カートの購入数を更新したら、メッセージを表示する
 if(update_cart_amount($db, $cart_id, $amount)){
   set_message('購入数を更新しました。');
   // 上記以外はエラーメッセージを表示する
