@@ -29,18 +29,20 @@ $item_id = get_post('item_id');
 // changes_toを取得
 $changes_to = get_post('changes_to');
 
-// 公開から非公開
-if($changes_to === 'open'){
-  update_item_status($db, $item_id, ITEM_STATUS_OPEN);
-  set_message('ステータスを変更しました。');
-  // 非公開から公開
-}else if($changes_to === 'close'){
-  update_item_status($db, $item_id, ITEM_STATUS_CLOSE);
-  set_message('ステータスを変更しました。');
-  // 上記以外はエラーメッセージを表示する
-}else {
-  set_error('不正なリクエストです。');
+// セッションのトークンとPOSTのトークンの照合
+if($_SESSION['token'] === $_POST['token']){
+  // 公開から非公開
+  if($changes_to === 'open'){
+    update_item_status($db, $item_id, ITEM_STATUS_OPEN);
+    set_message('ステータスを変更しました。');
+    // 非公開から公開
+  }else if($changes_to === 'close'){
+    update_item_status($db, $item_id, ITEM_STATUS_CLOSE);
+    set_message('ステータスを変更しました。');
+    // 上記以外はエラーメッセージを表示する
+  }else {
+    set_error('不正なリクエストです。');
+  }
 }
-
 // admin.phpにとばす
 redirect_to(ADMIN_URL);

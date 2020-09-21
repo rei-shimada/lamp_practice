@@ -28,7 +28,7 @@ if(is_admin($user) === false){
 // データベースから商品一覧を取得
 $items = get_all_items($db);
 
-// セッションのトークとPOSTのトークンの照合
+// セッションのトークンとPOSTのトークンの照合
 $_SESSION['token'] === $_POST['token'];
 
 // トークン生成
