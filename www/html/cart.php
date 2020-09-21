@@ -1,4 +1,6 @@
 <?php
+// iframe禁止のためのheader関数
+header('X-FRAME-OPTIONS: DENY');
 // 設定ファイル読み込み
 require_once '../conf/const.php';
 // 関数ファイル読み込み
@@ -12,6 +14,14 @@ require_once MODEL_PATH . 'cart.php';
 
 // ログインチェックを行うため、セッションを開始する
 session_start();
+
+// ランダムなパスワードを一行で生成する。
+$token = substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, 30);
+$_SESSION['token'] = $token;
+
+// セッションのトークンとPOSTで送られてきたトークンの照合
+if($_SESSION['token'] === $_POST['token'])
+
 
 // ログインしていないユーザーがadmin.phpを直接開こうとした場合、ログインページにとばす。
 if(is_logined() === false){
@@ -31,3 +41,4 @@ $total_price = sum_carts($carts);
 
 // カートテンプレートファイルの読み込み
 include_once VIEW_PATH . 'cart_view.php';
+
