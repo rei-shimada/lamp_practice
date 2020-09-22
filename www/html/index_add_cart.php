@@ -26,13 +26,15 @@ $user = get_login_user($db);
 // アイテムid取得
 $item_id = get_post('item_id');
 
-// カートに商品を追加出来たらメッセージ表示
-if(add_cart($db,$user['user_id'], $item_id)){
-  set_message('カートに商品を追加しました。');
-   // 上記以外はエラーメッセージを表示する
-} else {
-  set_error('カートの更新に失敗しました。');
+// セッションのトークンとPOSTのトークンの照合
+if($_SESSION['token'] === $_POST['token']){
+  // カートに商品を追加出来たらメッセージ表示
+  if(add_cart($db,$user['user_id'], $item_id)){
+    set_message('カートに商品を追加しました。');
+    // 上記以外はエラーメッセージを表示する
+  } else {
+    set_error('カートの更新に失敗しました。');
+  }
 }
-
 // index_add_cart.phpにとばす
 redirect_to(HOME_URL);

@@ -24,22 +24,26 @@ $password_confirmation = get_post('password_confirmation');
 // データベースに接続
 $db = get_db_connect();
 
-try{
-// データーベースから、名前、パスワード、パスワード（確認用）を取得
-  $result = regist_user($db, $name, $password, $password_confirmation);
-// データが存在したらエラーメッセージ表示し、signup.phpにとばす
-  if( $result === false){
+// セッションのトークンとPOSTのトークンの照合
+if($_SESSION['token'] === $_POST['token']){
+  try{
+  // データーベースから、名前、パスワード、パスワード（確認用）を取得
+    $result = regist_user($db, $name, $password, $password_confirmation);
+  // データが存在したらエラーメッセージ表示し、signup.phpにとばす
+    if( $result === false){
+      set_error('ユーザー登録に失敗しました。');
+      redirect_to(SIGNUP_URL);
+    }
+  }catch(PDOException $e){
+    // データベースに接続出来なかった場合、エラーメッセージ表示
     set_error('ユーザー登録に失敗しました。');
+    // signup.phpにとばす
     redirect_to(SIGNUP_URL);
   }
-}catch(PDOException $e){
-  // データベースに接続出来なかった場合、エラーメッセージ表示
-  set_error('ユーザー登録に失敗しました。');
-  // signup.phpにとばす
-  redirect_to(SIGNUP_URL);
+
+  // データが存在していなかった場合、メッセージ表示しindex.phpにとばす
+  set_message('ユーザー登録が完了しました。');
+  login_as($db, $name, $password);
 }
 
-// データが存在していなかった場合、メッセージ表示しindex.phpにとばす
-set_message('ユーザー登録が完了しました。');
-login_as($db, $name, $password);
 redirect_to(HOME_URL);

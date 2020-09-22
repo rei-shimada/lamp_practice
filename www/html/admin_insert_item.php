@@ -37,13 +37,15 @@ $stock = get_post('stock');
 // 商品画像の取得
 $image = get_file('image');
 
-// 商品が登録出来たら、メッセージを表示する
-if(regist_item($db, $name, $price, $stock, $status, $image)){
-  set_message('商品を登録しました。');
-  // 上記以外はエラーメッセージを表示する
-}else {
-  set_error('商品の登録に失敗しました。');
+// セッションのトークンとPOSTのトークンの照合
+if($_SESSION['token'] === $_POST['token']){
+  // 商品が登録出来たら、メッセージを表示する
+  if(regist_item($db, $name, $price, $stock, $status, $image)){
+    set_message('商品を登録しました。');
+    // 上記以外はエラーメッセージを表示する
+  }else {
+    set_error('商品の登録に失敗しました。');
+  }
 }
-
 // admin.phpにとばす
 redirect_to(ADMIN_URL);

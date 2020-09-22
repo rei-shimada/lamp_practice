@@ -30,14 +30,16 @@ if(is_admin($user) === false){
 // item_idを取得
 $item_id = get_post('item_id');
 
-// 該当商品が削除された場合、メッセージを表示
-if(destroy_item($db, $item_id) === true){
-  set_message('商品を削除しました。');
-  // 上記以外はエラーメッセージを表示する
-} else {
-  set_error('商品削除に失敗しました。');
+// セッションのトークンとPOSTのトークンの照合
+if($_SESSION['token'] === $_POST['token']){
+  // 該当商品が削除された場合、メッセージを表示
+  if(destroy_item($db, $item_id) === true){
+    set_message('商品を削除しました。');
+    // 上記以外はエラーメッセージを表示する
+  } else {
+    set_error('商品削除に失敗しました。');
+  }
 }
-
 
 // admin.phpにとばす
 redirect_to(ADMIN_URL);

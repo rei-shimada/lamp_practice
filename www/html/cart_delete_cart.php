@@ -26,13 +26,15 @@ $user = get_login_user($db);
 // カートid取得
 $cart_id = get_post('cart_id');
 
-// カートの商品を削除したら、メッセージを表示する。
-if(delete_cart($db, $cart_id)){
-  set_message('カートを削除しました。');
-  // 上記以外はエラーメッセージを表示する
-} else {
-  set_error('カートの削除に失敗しました。');
+// セッションのトークンとPOSTのトークンの照合
+if($_SESSION['token'] === $_POST['token']){
+  // カートの商品を削除したら、メッセージを表示する。
+  if(delete_cart($db, $cart_id)){
+    set_message('カートを削除しました。');
+    // 上記以外はエラーメッセージを表示する
+  } else {
+    set_error('カートの削除に失敗しました。');
+  }
 }
-
 // cart.phpにとばす
 redirect_to(CART_URL);

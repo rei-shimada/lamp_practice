@@ -28,13 +28,15 @@ $cart_id = get_post('cart_id');
 // 購入数取得
 $amount = get_post('amount');
 
-// カートの購入数を更新したら、メッセージを表示する
-if(update_cart_amount($db, $cart_id, $amount)){
-  set_message('購入数を更新しました。');
-  // 上記以外はエラーメッセージを表示する
-} else {
-  set_error('購入数の更新に失敗しました。');
+// セッションのトークンとPOSTのトークンの照合
+if($_SESSION['token'] === $_POST['token']){
+  // カートの購入数を更新したら、メッセージを表示する
+  if(update_cart_amount($db, $cart_id, $amount)){
+    set_message('購入数を更新しました。');
+    // 上記以外はエラーメッセージを表示する
+  } else {
+    set_error('購入数の更新に失敗しました。');
+  }
 }
-
 // cart.phpにとばす
 redirect_to(CART_URL);

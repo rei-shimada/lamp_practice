@@ -29,5 +29,9 @@ $carts = get_user_carts($db, $user['user_id']);
 // カートの合計金額
 $total_price = sum_carts($carts);
 
+// トークン生成
+$token = get_random_string($length = 20);
+$_SESSION['token'] = $token;
+
 // カートテンプレートファイルの読み込み
 include_once VIEW_PATH . 'cart_view.php';

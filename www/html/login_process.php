@@ -24,18 +24,22 @@ $db = get_db_connect();
 
 // データーベースからログインユーザーの名前とパスワードを取得
 $user = login_as($db, $name, $password);
-// データが存在していない場合、エラーメッセージ表示
-if( $user === false){
-  set_error('ログインに失敗しました。');
-  // login.phpにとばす
-  redirect_to(LOGIN_URL);
-}
 
-// データが存在していた場合、メッセージ表示
-set_message('ログインしました。');
-// ログインユーザーが管理者だった場合、admin.phpにとばす
-if ($user['type'] === USER_TYPE_ADMIN){
-  redirect_to(ADMIN_URL);
+// セッションのトークンとPOSTのトークンの照合
+if($_SESSION['token'] === $_POST['token']){
+  // データが存在していない場合、エラーメッセージ表示
+  if( $user === false){
+    set_error('ログインに失敗しました。');
+    // login.phpにとばす
+    redirect_to(LOGIN_URL);
+  }
+
+  // データが存在していた場合、メッセージ表示
+  set_message('ログインしました。');
+  // ログインユーザーが管理者だった場合、admin.phpにとばす
+  if ($user['type'] === USER_TYPE_ADMIN){
+    redirect_to(ADMIN_URL);
+  }
+  // index.phpにとばす
+  redirect_to(HOME_URL);
 }
-// index.phpにとばす
-redirect_to(HOME_URL);
