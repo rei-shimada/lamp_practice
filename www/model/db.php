@@ -16,6 +16,7 @@ function get_db_connect(){
   return $dbh;
 }
 
+// クエリ読み込み
 function fetch_query($db, $sql, $params = array()){
   try{
     // sql文を実行する準備
@@ -48,6 +49,7 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 
+// クエリ実行
 function execute_query($db, $sql, $params = array()){
   try{
     // sql文を実行する準備

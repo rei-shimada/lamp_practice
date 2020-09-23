@@ -27,5 +27,10 @@ if(is_admin($user) === false){
 }
 // データベースから商品一覧を取得
 $items = get_all_items($db);
+
+// トークン生成
+$token = get_random_string($length = 20);
+$_SESSION['token'] = $token;
+
 // 管理画面テンプレートファイルの読み込み
 include_once VIEW_PATH . '/admin_view.php';

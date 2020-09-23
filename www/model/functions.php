@@ -1,5 +1,5 @@
 <?php
-// コメントアウト　command+/
+// コメントアウト command+/
 // デバッグ処理
 function dd($var){
   var_dump($var);
@@ -112,14 +112,17 @@ function get_upload_filename($file){
   return get_random_string() . '.' . $ext;
 }
 
+// ランダムなパスワードを生成する
 function get_random_string($length = 20){
   return substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, $length);
 }
 
+// 画像を保存
 function save_image($image, $filename){
   return move_uploaded_file($image['tmp_name'], IMAGE_DIR . $filename);
 }
 
+// 画像を削除
 function delete_image($filename){
   if(file_exists(IMAGE_DIR . $filename) === true){
     unlink(IMAGE_DIR . $filename);
@@ -130,25 +133,28 @@ function delete_image($filename){
 }
 
 
-
+// 有効な文字数かどうかチェック
 function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX){
   $length = mb_strlen($string);
   return ($minimum_length <= $length) && ($length <= $maximum_length);
 }
 
+// 有効な英数字かどうかチェック
 function is_alphanumeric($string){
   return is_valid_format($string, REGEXP_ALPHANUMERIC);
 }
 
+// 有効な整数かどうかチェック
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
 }
 
+// 正規表現でフォーマットと文字のチェック
 function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
 }
 
-
+// 有効な画像かどうかチェック
 function is_valid_upload_image($image){
   if(is_uploaded_file($image['tmp_name']) === false){
     set_error('ファイル形式が不正です。');
@@ -162,6 +168,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
+// htmlspecialchars簡略化
 function h($str){
   return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }
