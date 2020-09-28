@@ -14,9 +14,6 @@ require_once MODEL_PATH . 'item.php';
 // ログインチェックを行うため、セッションを開始する
 session_start();
 
-// セッションのトークンとPOSTで送られてきたトークンの照合
-if($_SESSION['token'] === $_POST['token'])
-
 // ログインしていないユーザーがadmin.phpを直接開こうとした場合、ログインページにとばす。
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
