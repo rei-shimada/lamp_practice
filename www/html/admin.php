@@ -1,4 +1,7 @@
 <?php
+// iframe禁止のためのheader関数
+header('X-FRAME-OPTIONS: DENY');
+
 // 設定ファイル読み込み
 require_once '../conf/const.php';
 // 汎用関数ファイル読み込み
@@ -28,8 +31,10 @@ if(is_admin($user) === false){
 // データベースから商品一覧を取得
 $items = get_all_items($db);
 
+
 // トークン生成
 $token = get_random_string($length = 20);
+
 $_SESSION['token'] = $token;
 
 // 管理画面テンプレートファイルの読み込み
