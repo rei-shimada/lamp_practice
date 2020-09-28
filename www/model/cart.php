@@ -63,13 +63,13 @@ function get_user_cart($db, $user_id, $item_id){
 
 }
 
-// カートに追加する
+// ユーザーカートに商品を追加する
 function add_cart($db, $user_id, $item_id ) {
   // ログインユーザーのカート情報取得
   $cart = get_user_cart($db, $user_id, $item_id);
   // ログインユーザーのカート情報がなかったら
   if($cart === false){
-    // insert_cartに返す(カート情報を追加する)
+    // カート情報を新規作成
     return insert_cart($db, $user_id, $item_id);
   }
   // update_cart_amountに返す(カートの数量を更新する)
@@ -176,7 +176,7 @@ function sum_carts($carts){
 
 // カートから商品を購入する
 function validate_cart_purchase($carts){
-  // カートがからの場合
+  // カートが空の場合
   if(count($carts) === 0){
     // エラーメッセージ表示
     set_error('カートに商品が入っていません。');
@@ -185,12 +185,12 @@ function validate_cart_purchase($carts){
   }
   // 繰り返し処理
   foreach($carts as $cart){
-    // オープンされていなかった場合
+    // 非公開の場合
     if(is_open($cart) === false){
       // エラーメッセージ表示
       set_error($cart['name'] . 'は現在購入できません。');
     }
-    // 在庫数が数量よりも少ない場合
+    // 在庫数が購入数よりも少ない場合
     if($cart['stock'] - $cart['amount'] < 0){
       // エラーメッセージ表示
       set_error($cart['name'] . 'は在庫が足りません。購入可能数:' . $cart['stock']);

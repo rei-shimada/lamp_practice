@@ -1,7 +1,10 @@
 <?php
+// 汎用関数ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
+// データベースに関する関数ファイル読み込み
 require_once MODEL_PATH . 'db.php';
 
+// ログインユーザー取得
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -18,6 +21,7 @@ function get_user($db, $user_id){
 
   return fetch_query($db, $sql, array($user_id));
 }
+
 
 function get_user_by_name($db, $name){
   $sql = "

@@ -31,8 +31,10 @@ if(is_admin($user) === false){
 // データベースから商品一覧を取得
 $items = get_all_items($db);
 
-// ランダムなパスワードを一行で生成する。
-$token = substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, 30);
+
+// トークン生成
+$token = get_random_string($length = 20);
+
 $_SESSION['token'] = $token;
 
 // 管理画面テンプレートファイルの読み込み
